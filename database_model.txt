@@ -1,0 +1,25 @@
+FinancialUser -> {1...n} FinancialExpense
+FinancialExpense -> {1...n} FinancialExpenseEntry
+FinancialExpenseEntry
+
+
+#-----------------------------------
+
+FinancialUser
+    id
+
+FinancialExpense
+    id
+    financialCategoryId
+
+
+FinancialExpenseEntry
+    cost
+    amountSpent
+    description
+
+
+FinancialCategory
+    id
+    name
+    description
