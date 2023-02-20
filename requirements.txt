@@ -1,2 +1,7 @@
-fastapi
+fastapi~=0.92.0
 uvicorn[standard]
+sqlalchemy~=2.0.4
+sqlalchemy-utils
+psycopg2
+pydantic~=1.10.5
+cryptography
