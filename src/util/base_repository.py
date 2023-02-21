@@ -14,7 +14,6 @@ class BaseRepository:
         else:
             db.add(entity)
         db.commit()
-        db.close()
         return entity
 
     def update(self, db: Session, entityUpdated: any, columnName: str, matchValue: any) -> any:
@@ -25,7 +24,6 @@ class BaseRepository:
             query_result.update(fields_to_update.dict)
             db.flush()
             db.commit()
-            db.close()
             return query_result.first()
 
         return None
@@ -48,4 +46,3 @@ class BaseRepository:
         if entity is not None:
             db.delete(entity)
             db.commit()
-            db.close()
