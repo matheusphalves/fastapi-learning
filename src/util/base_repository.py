@@ -14,6 +14,7 @@ class BaseRepository:
         else:
             db.add(entity)
         db.commit()
+        db.close()
         return entity
 
     def update(self, db: Session, entityUpdated: any, columnName: str, matchValue: any) -> any:
@@ -24,6 +25,7 @@ class BaseRepository:
             query_result.update(fields_to_update.dict)
             db.flush()
             db.commit()
+            db.close()
             return query_result.first()
 
         return None
@@ -34,9 +36,6 @@ class BaseRepository:
             return db.query(self.entityModel).filter(vars(self.entityModel)[columnName] == matchValue)
 
         return None
-
-
-
 
     def find_by_id(self, db: Session, id: int) -> any:
         return db.query(self.entityModel).filter(self.entityModel.id == id).first()
@@ -49,3 +48,4 @@ class BaseRepository:
         if entity is not None:
             db.delete(entity)
             db.commit()
+            db.close()

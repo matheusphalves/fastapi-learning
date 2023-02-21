@@ -3,6 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import create_database, database_exists
 
+#TODO change to get this values from env
 username = 'postgres'
 password = 'root'
 host = 'localhost'
@@ -34,6 +35,4 @@ class DatabaseConector:
             database.close()
 
 
-database = DatabaseConector()
-
-engine = database.create_engine()
+database_conector = DatabaseConector()

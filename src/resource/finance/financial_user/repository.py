@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from src.resource.finance.financial_user.model import FinancialUser
+from src.database.models import FinancialUser
 from src.util.base_repository import BaseRepository
 
 
