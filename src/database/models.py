@@ -26,7 +26,7 @@ class FinancialExpense(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, index=False)
     financial_user_id: Mapped[int] = mapped_column(ForeignKey("financial_user.id"))
-    parent: Mapped["FinancialUser"] = relationship(back_populates="children")
+    parent: Mapped["FinancialUser"] = relationship(back_populates="financial_expense")
 
     type = Column(String(100), nullable=False)
     description = Column(String(255), nullable=False)
@@ -47,7 +47,7 @@ class FinancialExpenseEntry(Base):
     update_date: DateTime = Column(DateTime(timezone=True), onupdate=func.now())
 
     financial_expense_id: Mapped[int] = mapped_column(ForeignKey("financial_expense.id"))
-    parent: Mapped["FinancialUser"] = relationship(back_populates="children")
+    parent: Mapped["FinancialExpense"] = relationship(back_populates="financial_expense")
 
 
 engine = database_conector.create_engine()
