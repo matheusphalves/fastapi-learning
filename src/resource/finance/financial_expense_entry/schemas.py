@@ -7,11 +7,18 @@ class FinancialExpenseEntry(BaseModel):
     description: str
 
 
-class FinancialExpenseRequest(FinancialExpenseEntry):
+class FinancialExpenseEntryUpdateRequest(BaseModel):
+    id: int
+    financial_expense_id: int
+    amount: float
+    description: str
+
+
+class FinancialExpenseEntryRequest(FinancialExpenseEntry):
     pass
 
 
-class FinancialExpenseResponse(FinancialExpenseEntry):
+class FinancialExpenseEntryResponse(FinancialExpenseEntry):
     id: int
 
     class Config:

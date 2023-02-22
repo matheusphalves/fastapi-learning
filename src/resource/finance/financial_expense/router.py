@@ -9,7 +9,7 @@ from src.resource.finance.financial_expense.repository import FinancialExpenseRe
 from src.resource.finance.financial_expense.schemas import FinancialExpenseResponse, FinancialExpenseRequest, \
     FinancialExpenseUpdateRequest
 
-financial_expenses_router = APIRouter(prefix="/api/financial-expenses", tags=["Financial Expense"])
+financial_expenses_router = APIRouter(prefix="/api/financial-expenses", tags=["Financial Expenses"])
 
 financial_expense_repository = FinancialExpenseRepository()
 
