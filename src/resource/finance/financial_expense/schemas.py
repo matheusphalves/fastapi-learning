@@ -7,6 +7,13 @@ class FinancialExpenseBase(BaseModel):
     description: str
 
 
+class FinancialExpenseUpdateRequest(BaseModel):
+    id: int
+    financial_user_id: int
+    type: str
+    description: str
+
+
 class FinancialExpenseRequest(FinancialExpenseBase):
     pass
 

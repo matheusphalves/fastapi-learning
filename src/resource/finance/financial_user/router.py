@@ -6,7 +6,8 @@ from sqlalchemy.orm import Session
 from src.database.database import database_conector
 from src.database.models import FinancialUser
 from src.resource.finance.financial_user.repository import FinancialUserRepository
-from src.resource.finance.financial_user.schemas import FinancialUserResponse, FinancialUserRequest
+from src.resource.finance.financial_user.schemas import FinancialUserResponse, FinancialUserRequest, \
+    FinancialUserUpdateRequest
 
 financial_users_router = APIRouter(prefix="/api/financial-users", tags=["Financial Users"])
 
@@ -20,7 +21,7 @@ async def create(request: FinancialUserRequest, db: Session = Depends(database_c
 
 
 @financial_users_router.put(path="", response_model=FinancialUserResponse, status_code=status.HTTP_200_OK)
-async def update(request: FinancialUserRequest, db: Session = Depends(database_conector.get_database_session)):
+async def update(request: FinancialUserUpdateRequest, db: Session = Depends(database_conector.get_database_session)):
     financial_user = financial_user_repository.update(db, FinancialUser(**request.dict()))
     if financial_user is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Item not found")

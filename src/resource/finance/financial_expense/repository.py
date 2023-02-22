@@ -16,9 +16,7 @@ class FinancialExpenseRepository(BaseRepository):
         return None
 
     def update(self, db: Session, financial_expense: FinancialExpense) -> any:
-        columnName = "financial_user_id"
-        matchValue = financial_expense.financial_user_id
 
-        if self.related_fk_exists(db, FinancialUser, financial_expense.financial_user_id) is not None:
-            return super().update(db, financial_expense, columnName, matchValue)
+        if self.related_relationship_exists(db, FinancialUser, financial_expense.id, financial_expense.financial_user_id):
+            return super().update(db, financial_expense)
         return None

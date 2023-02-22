@@ -6,7 +6,8 @@ from sqlalchemy.orm import Session
 from src.database.database import database_conector
 from src.database.models import FinancialExpense
 from src.resource.finance.financial_expense.repository import FinancialExpenseRepository
-from src.resource.finance.financial_expense.schemas import FinancialExpenseResponse, FinancialExpenseRequest
+from src.resource.finance.financial_expense.schemas import FinancialExpenseResponse, FinancialExpenseRequest, \
+    FinancialExpenseUpdateRequest
 
 financial_expenses_router = APIRouter(prefix="/api/financial-expenses", tags=["Financial Expense"])
 
@@ -22,7 +23,7 @@ async def create(request: FinancialExpenseRequest, db: Session = Depends(databas
 
 
 @financial_expenses_router.put(path="", response_model=FinancialExpenseResponse, status_code=status.HTTP_200_OK)
-async def update(request: FinancialExpenseRequest, db: Session = Depends(database_conector.get_database_session)):
+async def update(request: FinancialExpenseUpdateRequest, db: Session = Depends(database_conector.get_database_session)):
     financial_expense = financial_expense_repository.update(db, FinancialExpense(**request.dict()))
     if financial_expense is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Item not found")

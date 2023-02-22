@@ -38,10 +38,11 @@ class BaseRepository:
         db.commit()
         return entity
 
-    def update(self, db: Session, entityUpdated: any, columnName: str, matchValue: any) -> any:
+    def update(self, db: Session, entityUpdated: any) -> any:
 
-        query_result = self.find_by_custom_column_value(db, columnName=columnName, matchValue=matchValue)
-        if query_result.first() is not None:
+        query_result = db.query(self.entityModel).filter(self.entityModel.id == entityUpdated.id)
+
+        if query_result is not None:
             fields_to_update = vars(entityUpdated).pop("_sa_instance_state")
             query_result.update(fields_to_update.dict)
             db.flush()
@@ -69,5 +70,14 @@ class BaseRepository:
             db.delete(entity)
             db.commit()
 
-    def related_fk_exists(self, db:Session, entityRelatedModel: any, fkId: int) -> bool:
+    def related_fk_exists(self, db: Session, entityRelatedModel: any, fkId: int) -> bool:
         return db.query(entityRelatedModel).filter(entityRelatedModel.id == fkId).first() is not None
+
+    def related_relationship_exists(self, db: Session, entityRelatedModel: any, pkId: int, fkId: int) -> bool:
+
+        child_entity = self.find_by_id(db, pkId)
+
+        if child_entity is not None:
+            return db.query(entityRelatedModel).filter(entityRelatedModel.id == fkId).first() is not None
+
+        return False

@@ -10,6 +10,6 @@ class FinancialUserRepository(BaseRepository):
         self.entityModel = FinancialUser
 
     def update(self, db: Session, financial_user: FinancialUser) -> any:
-        columnName = "login"
-        matchValue = financial_user.login
-        return super().update(db, financial_user, columnName, matchValue)
+        if self.exists_by_id(db, financial_user.id):
+            return super().update(db, financial_user)
+        return None

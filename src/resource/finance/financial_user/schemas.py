@@ -8,6 +8,14 @@ class FinancialUserBase(BaseModel):
     password: str
 
 
+class FinancialUserUpdateRequest(BaseModel):
+    id: int
+    firstName: str
+    lastName: str
+    login: str
+    password: str
+
+
 class FinancialUserRequest(FinancialUserBase):
     pass
 
