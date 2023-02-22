@@ -4,10 +4,11 @@ from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
 
 from src.database.database import database_conector
-from src.database.models import FinancialExpense
+from src.database.models import FinancialExpense, FinancialExpenseEntry
 from src.resource.finance.financial_expense.repository import FinancialExpenseRepository
 from src.resource.finance.financial_expense.schemas import FinancialExpenseResponse, FinancialExpenseRequest, \
     FinancialExpenseUpdateRequest
+from src.resource.finance.financial_expense_entry.schemas import FinancialExpenseEntryResponse
 
 financial_expenses_router = APIRouter(prefix="/api/financial-expenses", tags=["Financial Expenses"])
 
@@ -37,9 +38,15 @@ async def find_all(db: Session = Depends(database_conector.get_database_session)
 
 
 @financial_expenses_router.delete(path="/{financial_expense_id}")
-def delete(financial_expense_id: int, db: Session = Depends(database_conector.get_database_session)):
+async def delete(financial_expense_id: int, db: Session = Depends(database_conector.get_database_session)):
     financial_expense_repository.delete_by_id(db, financial_expense_id)
 
-# TODO implement this endpoints
-# Get by financial user id
-# Get expenses entries by financial-expenses
+
+@financial_expenses_router.get(path="/{financial_expense_id}/financial-expense-entries")
+async def get_financial_expense_entries_by_financial_expense(financial_expense_id: int,
+                                         db: Session = Depends(database_conector.get_database_session)):
+    financial_expense_entries = financial_expense_repository.get_related_entries(db, financial_expense_id,
+                                                                                 FinancialExpenseEntry,
+                                                                                 "financial_expense_id")
+    return [FinancialExpenseEntryResponse.from_orm(financial_expense_entry) for financial_expense_entry in
+            financial_expense_entries]

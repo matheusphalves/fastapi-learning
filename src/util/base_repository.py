@@ -73,6 +73,14 @@ class BaseRepository:
     def related_fk_exists(self, db: Session, entityRelatedModel: any, fkId: int) -> bool:
         return db.query(entityRelatedModel).filter(entityRelatedModel.id == fkId).first() is not None
 
+    def get_related_entries(self, db: Session, pkId: int, entityRelatedModel: any, fkColumnName: str) -> any:
+
+        entity = self.find_by_id(db, pkId)
+
+        if entity is None: return []
+
+        return db.query(entityRelatedModel).filter(vars(entityRelatedModel)[fkColumnName] == pkId).all()
+
     def related_relationship_exists(self, db: Session, entityRelatedModel: any, pkId: int, fkId: int) -> bool:
 
         child_entity = self.find_by_id(db, pkId)

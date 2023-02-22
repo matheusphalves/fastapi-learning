@@ -1,4 +1,8 @@
+from typing import List
+
 from pydantic import BaseModel
+
+from src.database.models import FinancialExpense
 
 
 class FinancialUserBase(BaseModel):

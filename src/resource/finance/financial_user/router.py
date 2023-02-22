@@ -4,7 +4,8 @@ from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
 
 from src.database.database import database_conector
-from src.database.models import FinancialUser
+from src.database.models import FinancialUser, FinancialExpense
+from src.resource.finance.financial_expense.schemas import FinancialExpenseResponse
 from src.resource.finance.financial_user.repository import FinancialUserRepository
 from src.resource.finance.financial_user.schemas import FinancialUserResponse, FinancialUserRequest, \
     FinancialUserUpdateRequest
@@ -35,5 +36,12 @@ async def find_all(db: Session = Depends(database_conector.get_database_session)
 
 
 @financial_users_router.delete(path="/{financial_user_id}")
-def delete(financial_user_id: int, db: Session = Depends(database_conector.get_database_session)):
+async def delete(financial_user_id: int, db: Session = Depends(database_conector.get_database_session)):
     financial_user_repository.delete_by_id(db, financial_user_id)
+
+
+@financial_users_router.get(path="/{financial_user_id}/financial-expenses")
+async def get_financial_expenses_by_user(financial_user_id: int,
+                                         db: Session = Depends(database_conector.get_database_session)):
+    financial_expenses = financial_user_repository.get_related_entries(db, financial_user_id, FinancialExpense, "financial_user_id")
+    return [FinancialExpenseResponse.from_orm(financial_expense) for financial_expense in financial_expenses]
