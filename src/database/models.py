@@ -45,6 +45,7 @@ class FinancialExpenseEntry(Base):
 
     create_date: DateTime = Column(DateTime(timezone=True), server_default=func.now())
     update_date: DateTime = Column(DateTime(timezone=True), onupdate=func.now())
+    expense_date: DateTime = Column(DateTime(timezone=True), nullable=False)
 
     financial_expense_id: Mapped[int] = mapped_column(ForeignKey("financial_expense.id"))
     parent: Mapped["FinancialExpense"] = relationship(back_populates="financial_expense")

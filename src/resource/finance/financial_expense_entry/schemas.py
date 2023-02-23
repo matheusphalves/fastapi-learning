@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel
 
 
@@ -5,13 +7,11 @@ class FinancialExpenseEntry(BaseModel):
     financial_expense_id: int
     amount: float
     description: str
+    expense_date: datetime
 
 
-class FinancialExpenseEntryUpdateRequest(BaseModel):
+class FinancialExpenseEntryUpdateRequest(FinancialExpenseEntry):
     id: int
-    financial_expense_id: int
-    amount: float
-    description: str
 
 
 class FinancialExpenseEntryRequest(FinancialExpenseEntry):
