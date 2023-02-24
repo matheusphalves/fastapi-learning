@@ -5,13 +5,11 @@ class FinancialExpenseBase(BaseModel):
     financial_user_id: int
     type: str
     description: str
+    goal_amount: float
 
 
-class FinancialExpenseUpdateRequest(BaseModel):
+class FinancialExpenseUpdateRequest(FinancialExpenseBase):
     id: int
-    financial_user_id: int
-    type: str
-    description: str
 
 
 class FinancialExpenseRequest(FinancialExpenseBase):

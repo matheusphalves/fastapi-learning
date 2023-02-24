@@ -30,6 +30,7 @@ class FinancialExpense(Base):
 
     type = Column(String(100), nullable=False)
     description = Column(String(255), nullable=False)
+    goal_amount: Double = Column(Double, nullable=False)
     create_date: DateTime = Column(DateTime(timezone=True), server_default=func.now())
     update_date: DateTime = Column(DateTime(timezone=True), onupdate=func.now())
 
