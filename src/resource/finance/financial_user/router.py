@@ -10,7 +10,7 @@ from src.database.models import FinancialUser, FinancialExpense
 from src.resource.finance.financial_expense.schemas import FinancialExpenseResponse
 from src.resource.finance.financial_user.repository import FinancialUserRepository
 from src.resource.finance.financial_user.schemas import FinancialUserResponse, FinancialUserRequest, \
-    FinancialUserUpdateRequest, FinancialUserLogin, FinancialUserLoginResponse
+    FinancialUserUpdateRequest, FinancialUserLogin
 
 financial_users_router = APIRouter(prefix="/api/financial-users", tags=["Financial Users"])
 
@@ -66,7 +66,7 @@ async def generate_auth_token(request: FinancialUserLogin, db: Session = Depends
     if not verify_password(request.password, financial_user.password):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid credentials")
 
+    return create_access_token({"sub": financial_user.login})
 
-    return {"access_token": create_access_token({"sub": financial_user.login})}
 
 

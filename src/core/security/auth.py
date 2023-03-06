@@ -39,11 +39,18 @@ REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 
 oauth2_schema = OAuth2PasswordBearer(tokenUrl="token")
 
-def create_access_token(data: dict) -> str:
+
+def create_access_token(data: dict) -> dict:
     payload = data.copy()
     expire_time = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     payload["exp"] = expire_time
-    return jwt.encode(payload, JWT_SECRET_KEY, algorithm=ALGORITHM)
+    jwt_token = jwt.encode(payload, JWT_SECRET_KEY, algorithm=ALGORITHM)
+
+    return {
+        "access_token": jwt_token,
+        "expiration_time": ACCESS_TOKEN_EXPIRE_MINUTES,
+        "token_type": "Bearer"
+    }
 
 
 def create_refresh_token(token: str) -> str:
@@ -51,5 +58,6 @@ def create_refresh_token(token: str) -> str:
     return payload.get("sub")
 
 
-def get_current_user(token: str = Depends(oauth2_schema), db: Session = Depends(database_conector.get_database_session)):
+def get_current_user(token: str = Depends(oauth2_schema),
+                     db: Session = Depends(database_conector.get_database_session)):
     pass
