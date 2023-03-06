@@ -31,3 +31,14 @@ class FinancialUserResponse(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class FinancialUserLogin(BaseModel):
+    login: str
+    password: str
+
+
+class FinancialUserLoginResponse(BaseModel):
+    access_token: str
+    token_type: str
+    expires_at: str

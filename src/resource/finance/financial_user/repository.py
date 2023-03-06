@@ -13,3 +13,6 @@ class FinancialUserRepository(BaseRepository):
         if self.exists_by_id(db, financial_user.id):
             return super().update(db, financial_user)
         return None
+
+    def get_user_by_login(self, db:Session, login: str) -> any:
+        return self.find_by_custom_column_value(db, "login", login).first()

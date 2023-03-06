@@ -5,3 +5,6 @@ sqlalchemy-utils
 psycopg2
 pydantic~=1.10.5
 cryptography
+passlib
+bcrypt
+pyjwt

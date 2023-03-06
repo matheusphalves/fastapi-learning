@@ -13,4 +13,4 @@ app.include_router(financial_expense_entries_router)
 
 @app.get("/")
 async def root():
-    return {"message": "Hello world!"}
+    return {"message": "Alive!"}
